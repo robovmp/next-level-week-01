@@ -10,8 +10,8 @@ interface Params {
   point_id: number;
 }
 
-interface Data {
-  point: { 
+interface CollectPoint {
+  serializedPoint: { 
     image: string;
     image_url: string;
     name: string;
@@ -27,7 +27,7 @@ interface Data {
 
 const Detail = () =>{
 
-  const [ data, setData ] = useState<Data>( {} as Data );
+  const [ collectPoint, setCollectPoint ] = useState<CollectPoint>( {} as CollectPoint );
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -39,7 +39,7 @@ const Detail = () =>{
       api.get(`points/${routeParams.point_id}`)
         .then(
           response =>{
-            setData( response.data );
+            setCollectPoint( response.data );
           }
         )
     }, []
@@ -52,64 +52,71 @@ const Detail = () =>{
   function handleComposeMail(){
     MailComposer.composeAsync({
       subject: 'Interesse na coleta de resíduos',
-      recipients: [data.point.email],
+      recipients: [collectPoint.serializedPoint.email],
 
     });
   }
 
   function handleWhatsapp() {
-    Linking.openURL( `whatsapp://send?phone=${data.point.whatsapp}&text=Tenho interesse na coleta de resíduos` )
+    Linking.openURL( `whatsapp://send?phone=${collectPoint.serializedPoint.whatsapp}&text=Tenho interesse na coleta de resíduos` )
   }
 
-  if ( !data.point ) {
+  if ( !collectPoint.serializedPoint ) {
     return null;
+  } else {
+
+    return (
+      <>
+        
+        <View style={styles.container} >
+          
+          <TouchableOpacity onPress={handleNavigateBack} >
+              <Icon name="arrow-left" size={20} color="#34cb79" />
+          </TouchableOpacity>
+        
+          <Image style={styles.pointImage} source={ { uri: collectPoint.serializedPoint.image_url } } />
+          <Text style={styles.pointName}>{collectPoint.serializedPoint.name}</Text>
+          <Text style={styles.pointItems}>
+            {
+              collectPoint.items.map( item => item.title ). join( ', ' )
+            }
+          
+          </Text>
+  
+          <View style={styles.address} >
+            <Text style={styles.addressTitle} >Endereço</Text>
+            <Text style={styles.addressContent} >{collectPoint.serializedPoint.city}, {collectPoint.serializedPoint.uf}</Text>
+          </View>
+          
+  
+        </View>
+        <View style={styles.footer} >
+          <RectButton 
+            style={styles.button}
+            onPress={ handleWhatsapp }
+  
+          >
+            <FontAwesome name="whatsapp" size={20} color="#FFF"/>
+            <Text style={styles.buttonText}>Whatsapp</Text>
+          </RectButton>
+  
+          <RectButton 
+            style={styles.button}
+            onPress={ handleComposeMail }
+  
+          >
+            <Icon name="mail" size={20} color="#FFF"/>
+            <Text style={styles.buttonText}>E-mail</Text>
+          </RectButton>
+        </View>
+      </>
+    );
+  };
+
   }
   
 
-  return (
-    <>
-      <View style={styles.container} >
-        <TouchableOpacity onPress={handleNavigateBack} >
-            <Icon name="arrow-left" size={20} color="#34cb79" />
-        </TouchableOpacity>
-
-        <Image style={styles.pointImage} source={ { uri: data.point.image_url } } />
-        <Text style={styles.pointName}>{data.point.name}</Text>
-        <Text style={styles.pointItems}>
-          {
-            data.items.map( item => item.title ). join( ', ' )
-          }
-        
-        </Text>
-
-        <View style={styles.address} >
-          <Text style={styles.addressTitle} >Endereço</Text>
-          <Text style={styles.addressContent} >{data.point.city}, {data.point.uf}</Text>
-        </View>
-
-      </View>
-      <View style={styles.footer} >
-        <RectButton 
-          style={styles.button}
-          onPress={ handleWhatsapp }
-
-        >
-          <FontAwesome name="whatsapp" size={20} color="#FFF"/>
-          <Text style={styles.buttonText}>Whatsapp</Text>
-        </RectButton>
-
-        <RectButton 
-          style={styles.button}
-          onPress={ handleComposeMail }
-
-        >
-          <Icon name="mail" size={20} color="#FFF"/>
-          <Text style={styles.buttonText}>E-mail</Text>
-        </RectButton>
-      </View>
-    </>
-  );
-};
+  
 
 
 

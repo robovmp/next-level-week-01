@@ -4,6 +4,8 @@ import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
 import api from "../../services/api";
 import axios from "axios";
 
+import Dropzone from "../../components/Dropzone";
+
 import './style.css';
 import logo from '../../assets/logo.svg';
 import { FiArrowLeft } from "react-icons/fi";
@@ -22,6 +24,7 @@ interface IBGECityResponse{
     nome: string;
 }
 
+// 33:36
 
 const CreatPoint = () =>{
 
@@ -46,6 +49,8 @@ const CreatPoint = () =>{
     const [ selectedItems, setSelectedItems ] = useState<number[]>( [] );
 
     const [ selectedPosition, setSelectedPosition ] = useState<[number, number]>( [ 0, 0 ] );
+
+    const [ selectedFile, setSelectedFile ] = useState<File>();
 
     const history = useNavigate();
 
@@ -156,18 +161,21 @@ const CreatPoint = () =>{
         const [ latitude, longitude ] =selectedPosition;
         const items = selectedItems;
 
-        const data = {
+        const data = new FormData();
 
-            name,
-            email,
-            whatsapp,
-            uf,
-            city,
-            latitude,
-            longitude,
-            items
+        data.append('name', name);
+        data.append('email', email);
+        data.append('whatsapp', whatsapp);
+        data.append('uf', uf);
+        data.append('city', city);
+        data.append('latitude', String(latitude) );
+        data.append('longitude', String(longitude) );
+        data.append('items', items.join(','));
         
-        };
+        if (selectedFile) {
+            data.append('image', selectedFile);
+        }
+       
 
         await api.post( 'points', data );
 
@@ -191,6 +199,8 @@ const CreatPoint = () =>{
             <form onSubmit={handleSubmit} >
                 <h1>Cadastro do <br/> ponto de coleta</h1>
                 
+                <Dropzone onFileUploaded={setSelectedFile} />
+
                 <fieldset>
                     <legend>
                         <h2>Dados</h2>
