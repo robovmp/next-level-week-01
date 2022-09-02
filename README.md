@@ -21,7 +21,7 @@ Essas são as tecnologias usadas neste projeto
 
 * Github
 
-## Como usar :
+## Apresentação:
 
 ### 1 - Ao acessar a aplicação pela web, será introduzido a página inicial.
 
@@ -77,10 +77,17 @@ Após finalizar o cadastro clicando no botão será redirecionado ao inicio nova
 <style>
 .app-mobile{
   display: flex;
+  width: 100vw;
+
 }
 
-img[alt="App"]{
-  width: 100%
+.app-mobile img{
+  width: 50%
+
 }
+
+/* img[alt="App"]{
+  width: 50%
+} */
 
 </style>
