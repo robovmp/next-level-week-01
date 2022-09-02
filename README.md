@@ -44,21 +44,7 @@ Essas são as tecnologias usadas neste projeto
 Após finalizar o cadastro clicando no botão será redirecionado ao inicio novamente.
 ### 3 - Consumindo a aplicação pelo app.
 
-<div class="app-mobile">
-
 ![App](./media/app_01.png)
-
-![App](./media/app_02.png)
-
-![App](./media/app_03.png)
-
-![App](./media/app_04.png)
-
-![App](./media/app_05.png)
-
-</div>
-
-
 
 ## Links
   - Repository: https://github.com/robovmp/nlw-1
@@ -74,20 +60,3 @@ Após finalizar o cadastro clicando no botão será redirecionado ao inicio nova
 
   Obrigado por me visitar e bora codar!!
 
-<style>
-.app-mobile{
-  display: flex;
-  width: 100vw;
-
-}
-
-.app-mobile img{
-  width: 50%
-
-}
-
-/* img[alt="App"]{
-  width: 50%
-} */
-
-</style>
