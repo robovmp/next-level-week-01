@@ -47,7 +47,7 @@ Após finalizar o cadastro clicando no botão será redirecionado ao inicio nova
 ![App](./media/app_01.png)
 
 ## Links
-  - Repository: https://github.com/robovmp/nlw-1
+  - Repository: https://github.com/robovmp/next-level-week-01
 
   ## Versão
 
